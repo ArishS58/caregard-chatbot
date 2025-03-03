@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareGard AI Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .chat-container {
+            width: 360px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+        .chat-box {
+            height: 300px;
+            overflow-y: auto;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        .message {
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+        .user {
+            background: #007bff;
+            color: white;
+            text-align: right;
+            margin-left: auto;
+        }
+        .bot {
+            background: #e0e0e0;
+            color: black;
+            text-align: left;
+        }
+        input {
+            width: 75%;
+            padding: 8px;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+        }
+        button {
+            width: 22%;
+            padding: 8px;
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+        .footer {
+            font-size: 12px;
+            color: gray;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNBdgC_7BGTKHnyFcSxPbajq1layakpelMoPZ3m=s1360-w1360-h1020" alt="CareGard Logo" class="logo"> 
+        <h3>CareGard AI Chatbot</h3>
+        <div class="chat-box" id="chat-box">
+            <div class="message bot">Hello! How can I assist you with your warranty today?</div>
+        </div>
+        <input type="text" id="user-input" placeholder="Type your question...">
+        <button onclick="sendMessage()">Send</button>
+        <div class="footer">Powered by AI | CareGard Warranty Services</div>
+    </div>
+
+    <script>
+        function sendMessage() {
+            let input = document.getElementById("user-input");
+            let message = input.value.trim();
+            if (message === "") return;
+
+            let chatBox = document.getElementById("chat-box");
+
+            // Display user message
+            let userMessage = document.createElement("div");
+            userMessage.className = "message user";
+            userMessage.textContent = message;
+            chatBox.appendChild(userMessage);
+
+            // AI response logic
+            let botMessage = document.createElement("div");
+            botMessage.className = "message bot";
+            botMessage.textContent = getBotResponse(message);
+            chatBox.appendChild(botMessage);
+
+            chatBox.scrollTop = chatBox.scrollHeight;
+            input.value = "";
+        }
+
+        function getBotResponse(message) {
+            message = message.toLowerCase();
+            if (message.includes("warranty")) return "CareGard offers vehicle service contracts for comprehensive protection.";
+            if (message.includes("claims")) return "You can file a claim online or through our AI-powered chatbot for faster processing.";
+            if (message.includes("ai")) return "Our AI helps reduce response times by 50% and streamlines claims processing.";
+            if (message.includes("contact")) return "You can reach customer service at support@caregard.com or call 1-800-555-1234.";
+            return "I'm here to help! Try asking about warranties, claims, AI benefits, or contact info.";
+        }
+    </script>
+</body>
+</html>
