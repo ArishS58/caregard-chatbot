@@ -14,7 +14,7 @@
             background-color: #f4f4f4;
         }
         .chat-container {
-            width: 360px;
+            width: 380px;
             background: white;
             padding: 20px;
             border-radius: 10px;
@@ -61,6 +61,18 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        .quick-replies {
+            margin-top: 10px;
+        }
+        .quick-replies button {
+            padding: 8px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            background: #007bff;
+            color: white;
+        }
         .logo {
             width: 100px;
             margin-bottom: 10px;
@@ -74,13 +86,23 @@
 </head>
 <body>
     <div class="chat-container">
-        <img src="https://lh3.googleusercontent.com/p/AF1QipNBdgC_7BGTKHnyFcSxPbajq1layakpelMoPZ3m=s1360-w1360-h1020" alt="CareGard Logo" class="logo"> 
+        <img src="https://lh3.googleusercontent.com/p/AF1QipNBdgC_7BGTKHnyFcSxPbajq1layakpelMoPZ3m=s1360-w1360-h1020" 
+             alt="CareGard Logo" class="logo">
         <h3>CareGard AI Chatbot</h3>
         <div class="chat-box" id="chat-box">
             <div class="message bot">Hello! How can I assist you with your warranty today?</div>
         </div>
         <input type="text" id="user-input" placeholder="Type your question...">
         <button onclick="sendMessage()">Send</button>
+
+        <!-- Quick Reply Buttons -->
+        <div class="quick-replies">
+            <button onclick="quickReply('Get a Quote')">Get a Quote</button>
+            <button onclick="quickReply('File a Claim')">File a Claim</button>
+            <button onclick="quickReply('AI Benefits')">AI Benefits</button>
+            <button onclick="quickReply('Contact Support')">Contact Support</button>
+        </div>
+
         <div class="footer">Powered by AI | CareGard Warranty Services</div>
     </div>
 
@@ -90,31 +112,44 @@
             let message = input.value.trim();
             if (message === "") return;
 
-            let chatBox = document.getElementById("chat-box");
+            displayMessage(message, "user");
+            let response = getBotResponse(message);
+            displayMessage(response, "bot");
 
-            // Display user message
-            let userMessage = document.createElement("div");
-            userMessage.className = "message user";
-            userMessage.textContent = message;
-            chatBox.appendChild(userMessage);
-
-            // AI response logic
-            let botMessage = document.createElement("div");
-            botMessage.className = "message bot";
-            botMessage.textContent = getBotResponse(message);
-            chatBox.appendChild(botMessage);
-
-            chatBox.scrollTop = chatBox.scrollHeight;
             input.value = "";
+        }
+
+        function quickReply(text) {
+            displayMessage(text, "user");
+            let response = getBotResponse(text);
+            displayMessage(response, "bot");
+        }
+
+        function displayMessage(text, sender) {
+            let chatBox = document.getElementById("chat-box");
+            let messageDiv = document.createElement("div");
+            messageDiv.className = sender === "user" ? "message user" : "message bot";
+            messageDiv.textContent = text;
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
         function getBotResponse(message) {
             message = message.toLowerCase();
-            if (message.includes("warranty")) return "CareGard offers vehicle service contracts for comprehensive protection.";
-            if (message.includes("claims")) return "You can file a claim online or through our AI-powered chatbot for faster processing.";
-            if (message.includes("ai")) return "Our AI helps reduce response times by 50% and streamlines claims processing.";
-            if (message.includes("contact")) return "You can reach customer service at support@caregard.com or call 1-800-555-1234.";
-            return "I'm here to help! Try asking about warranties, claims, AI benefits, or contact info.";
+            
+            if (message.includes("quote")) 
+                return "You can get a personalized quote based on your vehicle's make, model, and mileage. Visit our website or call 1-800-555-1234 for a custom plan!";
+            
+            if (message.includes("claim")) 
+                return "To file a claim, have your service contract number and vehicle details ready. You can start a claim online or through our AI chatbot for faster processing.";
+            
+            if (message.includes("ai")) 
+                return "Our AI enhances customer service by reducing response times by 50%, automating claims processing, and providing predictive maintenance alerts.";
+            
+            if (message.includes("contact")) 
+                return "Need help? You can reach us at:\n📞 1-800-555-1234\n📧 support@caregard.com\n💬 Live Chat: Available on our website.";
+            
+            return "I'm here to help! Try asking about warranties, claims, AI benefits, or customer support.";
         }
     </script>
 </body>
